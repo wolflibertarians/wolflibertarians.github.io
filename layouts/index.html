@@ -12,19 +12,24 @@
 
   <br />
 
-  <div>Хотите забрать чавые себе? Укажите адрес вашего кошелька:</div>
+  <div>Хотите забрать чаeвые себе? Укажите адрес вашего кошелька:</div>
   <input type="text" id="walletInput" size="50" />
 
   <br />
   <br />
 
   <div id="yourlink"></div>
+
+  <a id="exlorer" href="https://www.blockchain.com/explorer/addresses/btc/{{ .Params.tips }}">
+    Биткоин - прозрачный механизм, вы можете видеть все переводы на сайтах вроде этого.
+  </a>
 </div>
 
 <script>
   var walletRE = /(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}/;
   var tipsEl = document.getElementById('tips');
   var yourlink = document.getElementById('yourlink');
+  var explorer = document.getElementById('exlorer');
 
   function setWallet(val) {
     var m = val.match(walletRE);
@@ -37,6 +42,11 @@
       if (yourlink && m[0] !== "{{ .Params.tips }}") {
         var url = location.origin + location.pathname + '#' + m[0];
         yourlink.innerText = "Ссылка материал: с вашим кошельком: " + url;
+      }
+
+      if (explorer) {
+        console.log('set history', m[0]);
+        exlorer.href = "https://www.blockchain.com/explorer/addresses/btc/" + m[0];
       }
 
       location.hash = '#' + tipsEl.innerText;
