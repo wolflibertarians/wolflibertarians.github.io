@@ -4,4 +4,59 @@
   <div class="homepage-content">{{.Content}}</div>
 </main>
 
+<div>
+  <div>
+    Кошелек для лайка:
+    <span id="tips">{{ .Params.tips }}</span>
+  </div>
+
+  <br />
+
+  <div>Хотите забрать чавые себе? Укажите адрес вашего кошелька:</div>
+  <input type="text" id="walletInput" size="50" />
+
+  <br />
+  <br />
+
+  <div id="yourlink"></div>
+</div>
+
+<script>
+  var walletRE = /(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}/;
+  var tipsEl = document.getElementById('tips');
+  var yourlink = document.getElementById('yourlink');
+
+  function setWallet(val) {
+    var m = val.match(walletRE);
+
+    if (m) {
+      if (tipsEl) {
+        tipsEl.innerText = m[0];
+      }
+
+      if (yourlink && m[0] !== "{{ .Params.tips }}") {
+        var url = location.origin + location.pathname + '#' + m[0];
+        yourlink.innerText = "Ссылка материал: с вашим кошельком: " + url;
+      }
+
+      location.hash = '#' + tipsEl.innerText;
+    }
+  }
+
+  var walletInput = document.getElementById('walletInput');
+  if (walletInput) {
+    walletInput.addEventListener('keydown', function() {
+      setWallet(walletInput.value);
+    });
+
+    walletInput.addEventListener('paste', function() {
+      setWallet(walletInput.value);
+    });
+  }
+
+  if (location.hash) {
+    setWallet(location.hash);
+  }
+</script>
+
 {{ end }}
