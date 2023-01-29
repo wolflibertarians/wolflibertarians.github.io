@@ -1,0 +1,13 @@
+<!doctype html>
+
+<html lang="ru">
+  {{ partial "head.html" . }}
+
+  <body class="dark:bg-gray-900 text-gray-800 dark:text-gray-400">
+    <main class="px-5 my-5">
+      <div class="container mx-auto">
+        {{ block "main" . }}{{ end }}
+      </div>
+    </main>
+  </body>
+</html>
